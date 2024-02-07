@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,12 +61,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ShowImage(drawableResId: Int, modifier:Modifier=Modifier) {
 
+    var screenWidth = LocalConfiguration.current.screenWidthDp.dp;
+    var columnWidth = screenWidth/2 + 60.dp;
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier= modifier
             .padding(vertical = 30.dp)
             .border(BorderStroke(3.dp, Color.DarkGray))
+            .height(400.dp)
+            .width(columnWidth)
 
     ) {
         Image(
@@ -73,9 +79,9 @@ fun ShowImage(drawableResId: Int, modifier:Modifier=Modifier) {
             contentDescription = "Image",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
+                .fillMaxSize()
                 .padding(10.dp)
+
         )
     }
 
@@ -84,14 +90,17 @@ fun ShowImage(drawableResId: Int, modifier:Modifier=Modifier) {
 @Composable
 fun ShowInformation(artworkTitle: String, artworkArtist: String, year: String, modifier:Modifier=Modifier) {
 
+    var screenWidth = LocalConfiguration.current.screenWidthDp.dp;
+    var columnWidth = screenWidth/2 + 60.dp;
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier=modifier
+        modifier = modifier
             .background(Color(red = 237, green = 235, blue = 245))
-            .fillMaxWidth()
             .padding(10.dp)
-            .defaultMinSize(minHeight = 400.dp)
+            .height(100.dp)
+            .width(columnWidth)
 
     ) {
         Text(
@@ -187,30 +196,27 @@ fun DisplayLayout(modifier: Modifier = Modifier) {
 
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(50.dp)
-            .verticalScroll(state = rememberScrollState())
+            .verticalScroll(state = rememberScrollState(), enabled = true)
 
     ) {
         ShowImage(
             drawableResId = drawableResId,
             modifier = modifier
-                .weight(2f)
         );
         ShowInformation(
             artworkTitle = artworkTitle,
             artworkArtist = artworkArtist,
             year = year,
             modifier = modifier
-                .weight(0.5f)
-                .fillMaxWidth()
         );
         ShowButtons(
             currentState = currentState,
             onPreviousClick = {currentState = Math.floorMod(it-1, 3)},
             onNextClick = {currentState = Math.floorMod(it+1, 3)},
             modifier = modifier
-                .weight(0.5f)
                 .fillMaxWidth()
                 .height(100.dp)
         );
