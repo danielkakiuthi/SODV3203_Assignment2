@@ -77,7 +77,7 @@ fun ShowImage(drawableResId: Int, modifier:Modifier=Modifier) {
         Image(
             painter = painterResource(id = drawableResId),
             contentDescription = "Image",
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.Inside,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
